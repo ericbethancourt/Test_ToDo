@@ -3,11 +3,14 @@ import React from 'react';
 
 
 export const FormTask = () => {
+    const myDB = client.db("db staging");
+    const myColl = myDB.collection("todo_list");
 
     const handleSubmit = (e) => {
         e.preventDefault();
         const task = document.getElementById("task").value;
-        console.log(task);
+        const taskinsert = { name: task, done: false };
+        const insert = await 
     }
     return (
         <div>
