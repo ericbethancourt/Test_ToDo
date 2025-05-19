@@ -1,14 +1,13 @@
-import React, { useEffect } from 'react';
-import { FormTask } from './FormTask/forms';
-import { Meteor } from 'meteor/meteor';
-// import { MongoClient } from 'mongodb'; // No se usa directamente en el frontend
+import React from 'react';
+import { BrowserRouter } from 'react-router-dom'; // Importa BrowserRouter
+import { AppRouter } from './components/Routes/pages_routes';
 
 export const App = () => {
   return (
-    <div>
-      <FormTask />
-    </div>
-  );
+      <BrowserRouter>
+        <AppRouter />
+      </BrowserRouter>
+      );
 };
 
 
