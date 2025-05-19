@@ -1,10 +1,10 @@
-import react from "react";
+import React from "react";
 
 export const NotFound = () => {
     return (
         <div>
             <h2>404 - Not Found</h2>
-            <p>The page you are looking for does not exist.</p>
+            <p>La pagina que buscas no existe.</p>
         </div>
     )
 }
