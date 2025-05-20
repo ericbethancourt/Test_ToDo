@@ -1,5 +1,3 @@
-
-
 .div-container-form {
     display: flex;
     justify-content: center;
@@ -14,13 +12,14 @@
     text-align: center;
     background-color: #0e56d9;
     color: white;
+    border-radius: 10px 10px 0px 0px;
 }
 
 .form-subtitle {
     font-size: 16px;
     font-weight: bold;
-    margin-top: 30px;
-    margin-bottom: 1px;
+    margin-top: 10px;
+    margin-bottom: 3px;
     
 }
 
@@ -48,6 +47,7 @@
     color: white;
     display: flex;
     margin-left: 0;
+    margin-right: 0;
     border: none;
     background-color: #0e56d9;
     cursor: pointer;
@@ -57,5 +57,32 @@
 }
 
 .form-button:hover {
-    background-color: #477cdf;
+    background-color: #2d67d3;
+    box-shadow: 0px 0px 10px 0px #0e55d965;
+    transition: all 0.2s ease-in
+}
+
+/* Estilos para el selector de prioridad */
+.priority-selector {
+    display: flex;
+    align-items: center;
+    margin: 10px 0;
+    
+}
+
+.priority-selector label {
+    margin-left: 10px;
+    font-size: 14px;
+    
+}
+
+.priority-select {
+    display: flex;
+    padding: 4px 8px;
+    margin-left: 2px;
+    border: 1px solid #0e56d9;
+    border-radius: 4px;
+    font-size: 14px;
+    outline: none;
+    box-shadow: 0px 0px 10px 0px #0e55d94b;
 }

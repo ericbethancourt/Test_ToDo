@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
+import { Routes, Route, Navigate } from 'react-router-dom';
 import {Home} from '/imports/ui/home/Home';
 import { NotFound } from '/imports/ui/not_found/index';
 

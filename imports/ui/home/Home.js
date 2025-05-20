@@ -5,10 +5,10 @@ import FormTask from '/imports/ui/FormTask/index';
 
 export const Home = () => {
     return (
-        <div>
-        <FormTask/>
-        <TaskList/>
-        </div>
+        <>
+        <FormTask />
+        <TaskList />
+        </>
        
     )
 }

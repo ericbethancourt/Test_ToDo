@@ -7,6 +7,7 @@ Meteor.methods({
         check(taskinsert, {
             name_task: String,
             done: Boolean,
+            priority: String,
         });
 
         return await task.insertAsync(taskinsert);

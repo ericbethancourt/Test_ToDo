@@ -9,4 +9,5 @@ body {
   height: 100vh;
   margin: 0 auto;
   border: 1px solid #0e56d9;
+  border-radius: 12px 12px 0px 0px;
 }
