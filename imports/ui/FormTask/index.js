@@ -22,19 +22,6 @@ export default FormTask = () => {
                 text: 'La tarea no puede estar vacía',
                 showConfirmButton: false,
                 timer: 2500,
-                showClass: {
-                    popup: `
-                      animate__animated
-                      animate__fadeOutDown
-                      
-                    `
-                  },
-                  hideClass: {
-                    popup: `
-                      animate__animated
-                       animate__fadeInUp
-                      `
-                  }
             });
             return;
         }

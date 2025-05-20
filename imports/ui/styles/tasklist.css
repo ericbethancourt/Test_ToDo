@@ -6,7 +6,7 @@
 
 .h2-title {
     margin-top: 25px;
-    margin-bottom: 5px;
+    margin-bottom: 15px;
     font-size: 20px;
     font-weight: bold;
     width: 100%;
@@ -20,10 +20,13 @@
     flex-direction: column;
     align-items: center;
     width: 300px;
+    height: 400px;
+    overflow-y: auto;
     background-color: rgba(240, 248, 255, 0);
     border-radius: 10px;
     border: 1px solid #0e56d9;
     box-shadow: 0px 0px 10px 0px #0e55d94b;
+    padding-right: 0px; /* Espacio para el scrollbar */
 }
 
 .div-container-tasklist-undone{
@@ -53,7 +56,8 @@ li {
     align-items: center;
     width: 75%;
     padding: 5px;
-    margin-bottom: 5px;
+    margin-bottom: 0; /* Eliminamos el margen inferior para que no afecte a los separadores */
+    border-radius: 5px;
 }
 
 .task-text {
@@ -119,4 +123,189 @@ li {
     height: 1px;
     background: #0e56d9;
     box-shadow: 0px 0px 10px 0px #0e55d94b;
+    margin: 5px 0;
+    align-self: center;
+}
+
+.task-container {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+/* Personalizar scrollbar para respetar los bordes redondeados */
+.div-container-tasklist-undone::-webkit-scrollbar,
+.div-container-tasklist-done::-webkit-scrollbar {
+    width: 8px;
+}
+
+.div-container-tasklist-undone::-webkit-scrollbar-track,
+.div-container-tasklist-done::-webkit-scrollbar-track {
+    background-color: transparent;
+    margin: 5px 0;
+    border-radius: 10px;
+}
+
+.div-container-tasklist-undone::-webkit-scrollbar-thumb,
+.div-container-tasklist-done::-webkit-scrollbar-thumb {
+    background-color: #0e56d9;
+    border-radius: 10px;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+.div-container-tasklist-undone::-webkit-scrollbar-thumb:hover,
+.div-container-tasklist-done::-webkit-scrollbar-thumb:hover {
+    background-color: #0a3d97;
+    border: 2px solid transparent;
+    background-clip: padding-box;
+}
+
+/* Ocultar el scrollbar en el borde superior e inferior */
+.div-container-tasklist-undone::-webkit-scrollbar-button:start:decrement,
+.div-container-tasklist-undone::-webkit-scrollbar-button:end:increment,
+.div-container-tasklist-done::-webkit-scrollbar-button:start:decrement,
+.div-container-tasklist-done::-webkit-scrollbar-button:end:increment {
+    height: 10px;
+    display: block;
+    background-color: transparent;
+}
+
+/* Media queries para adaptar tamaño de contenedores según resolución */
+
+/* Para pantallas pequeñas (menor a 768px) */
+@media screen and (max-width: 767px) {
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 280px;
+        height: 350px;
+    }
+}
+
+/* Para tablets y pantallas 720p */
+@media screen and (min-width: 768px) and (max-width: 1366px) {
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 320px;
+        height: 400px;
+    }
+}
+
+/* Para pantallas 1080p */
+@media screen and (min-width: 1367px) and (max-width: 1919px) {
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 350px;
+        height: 450px;
+    }
+}
+
+/* Para pantallas 1440p (2K) */
+@media screen and (min-width: 1920px) and (max-width: 2559px) {
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 450px;
+        height: 550px;
+    }
+}
+
+/* Para pantallas 1800p */
+@media screen and (min-width: 2560px) and (max-width: 3839px) {
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 500px;
+        height: 650px;
+    }
+}
+
+/* Para pantallas 4K (2160p) y superiores */
+@media screen and (min-width: 3840px) {
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 600px;
+        height: 800px;
+    }
+}
+
+.task-item {
+    cursor: grab;
+    transition: background-color 0.2s, transform 0.2s;
+}
+
+.task-item:hover {
+    background-color: rgba(14, 86, 217, 0.05);
+}
+
+.task-item.dragging {
+    opacity: 0.6;
+    transform: scale(0.98);
+    background-color: rgba(14, 86, 217, 0.1);
+}
+
+.task-drag-handle {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+    padding: 5px;
+    cursor: grab;
+}
+
+.drag-icon {
+    font-size: 16px;
+    color: #0e56d9;
+}
+
+/* Estilos para los contenedores durante arrastre */
+.div-container-tasklist-undone.drag-over,
+.div-container-tasklist-done.drag-over {
+    background-color: rgba(14, 86, 217, 0.05);
+    box-shadow: 0px 0px 15px 0px #0e55d97a;
+}
+
+/* Estilos para las acciones de la tarea (botón eliminar y arrastrar) */
+.task-actions {
+    display: flex;
+    align-items: center;
+    margin-left: auto;
+}
+
+/* Botón para eliminar tarea */
+.delete-task-button {
+    background: none;
+    border: none;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 5px;
+    opacity: 0;
+    transition: opacity 0.3s ease, transform 0.2s ease;
+    transform: translateX(10px);
+}
+
+.task-item:hover .delete-task-button {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.delete-task-button:hover {
+    transform: scale(1.2);
+}
+
+.icon-blue {
+    color: #0e56d9;
+    font-size: 16px;
+}
+
+.delete-task-button .icon-blue {
+    transition: transform 0.2s ease, color 0.2s ease;
+}
+
+.delete-task-button:hover .icon-blue {
+    transform: scale(1.2);
+    color: #0a3d97;
+}
+
+.task-drag-handle .icon-blue {
+    font-size: 18px;
 }
