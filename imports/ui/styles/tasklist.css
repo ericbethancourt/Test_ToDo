@@ -2,6 +2,7 @@
     display: flex;
     justify-content: center;
     width: 100%;
+    overflow-x: hidden;
 }
 
 .h2-title {
@@ -22,11 +23,16 @@
     width: 300px;
     height: 400px;
     overflow-y: auto;
+    overflow-x: hidden;
     background-color: rgba(240, 248, 255, 0);
     border-radius: 10px;
     border: 1px solid #0e56d9;
     box-shadow: 0px 0px 10px 0px #0e55d94b;
-    padding-right: 0px; /* Espacio para el scrollbar */
+    padding-right: 0px;
+    box-sizing: border-box;
+    scrollbar-width: thin;
+    scrollbar-color: #0e56d9 transparent;
+    padding: 8px 5px;
 }
 
 .div-container-tasklist-undone{
@@ -56,7 +62,7 @@ li {
     align-items: center;
     width: 75%;
     padding: 5px;
-    margin-bottom: 0; /* Eliminamos el margen inferior para que no afecte a los separadores */
+    margin-bottom: 0;
     border-radius: 5px;
 }
 
@@ -76,14 +82,12 @@ li {
     transition: all 0.3s ease-in;
 }
 
-/* Estilos para el contenedor de contenido de la tarea */
 .task-content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
-/* Estilos para las etiquetas de prioridad */
 .priority-badge {
     font-size: 12px;
     padding: 2px 6px;
@@ -92,7 +96,6 @@ li {
     font-weight: bold;
 }
 
-/* Colores para cada nivel de prioridad */
 .priority-muy-urgente {
     background-color: #ff3b30;
     color: white;
@@ -120,11 +123,22 @@ li {
 
 .separador {
     width: 85%;
-    height: 1px;
+    height: 2px;
     background: #0e56d9;
     box-shadow: 0px 0px 10px 0px #0e55d94b;
-    margin: 5px 0;
+    margin: 0;
     align-self: center;
+    transition: all 0.2s ease-in-out;
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.separador-highlight {
+    height: 3px;
+    background: #0e56d9;
+    box-shadow: 0px 0px 10px 0px #0e56d9;
+    opacity: 1;
+    margin: 3px 0;
 }
 
 .task-container {
@@ -132,12 +146,26 @@ li {
     display: flex;
     flex-direction: column;
     align-items: center;
+    transition: transform 0.15s ease-out;
+    max-width: 100%;
+    padding: 2px 0;
+    cursor: grab;
+    position: relative;
+    margin: 3px 0;
+    z-index: 1;
 }
 
-/* Personalizar scrollbar para respetar los bordes redondeados */
+.task-container-dragging {
+    opacity: 0.6;
+    transform: scale(0.98);
+    background-color: rgba(14, 86, 217, 0.1);
+    z-index: 10;
+}
+
 .div-container-tasklist-undone::-webkit-scrollbar,
 .div-container-tasklist-done::-webkit-scrollbar {
     width: 8px;
+    background-color: transparent;
 }
 
 .div-container-tasklist-undone::-webkit-scrollbar-track,
@@ -162,75 +190,28 @@ li {
     background-clip: padding-box;
 }
 
-/* Ocultar el scrollbar en el borde superior e inferior */
+.div-container-tasklist-undone::-webkit-scrollbar-button:single-button,
+.div-container-tasklist-done::-webkit-scrollbar-button:single-button,
 .div-container-tasklist-undone::-webkit-scrollbar-button:start:decrement,
 .div-container-tasklist-undone::-webkit-scrollbar-button:end:increment,
 .div-container-tasklist-done::-webkit-scrollbar-button:start:decrement,
 .div-container-tasklist-done::-webkit-scrollbar-button:end:increment {
-    height: 10px;
-    display: block;
-    background-color: transparent;
-}
-
-/* Media queries para adaptar tamaño de contenedores según resolución */
-
-/* Para pantallas pequeñas (menor a 768px) */
-@media screen and (max-width: 767px) {
-    .div-container-tasklist-undone,
-    .div-container-tasklist-done {
-        width: 280px;
-        height: 350px;
-    }
-}
-
-/* Para tablets y pantallas 720p */
-@media screen and (min-width: 768px) and (max-width: 1366px) {
-    .div-container-tasklist-undone,
-    .div-container-tasklist-done {
-        width: 320px;
-        height: 400px;
-    }
-}
-
-/* Para pantallas 1080p */
-@media screen and (min-width: 1367px) and (max-width: 1919px) {
-    .div-container-tasklist-undone,
-    .div-container-tasklist-done {
-        width: 350px;
-        height: 450px;
-    }
-}
-
-/* Para pantallas 1440p (2K) */
-@media screen and (min-width: 1920px) and (max-width: 2559px) {
-    .div-container-tasklist-undone,
-    .div-container-tasklist-done {
-        width: 450px;
-        height: 550px;
-    }
-}
-
-/* Para pantallas 1800p */
-@media screen and (min-width: 2560px) and (max-width: 3839px) {
-    .div-container-tasklist-undone,
-    .div-container-tasklist-done {
-        width: 500px;
-        height: 650px;
-    }
-}
-
-/* Para pantallas 4K (2160p) y superiores */
-@media screen and (min-width: 3840px) {
-    .div-container-tasklist-undone,
-    .div-container-tasklist-done {
-        width: 600px;
-        height: 800px;
-    }
+    display: none !important;
+    height: 0 !important;
+    width: 0 !important;
+    visibility: hidden !important;
+    background: transparent !important;
+    opacity: 0 !important;
 }
 
 .task-item {
     cursor: grab;
-    transition: background-color 0.2s, transform 0.2s;
+    transition: background-color 0.2s ease;
+    max-width: 100%;
+    width: 75%;
+    margin: 0;
+    padding: 8px;
+    border-radius: 5px;
 }
 
 .task-item:hover {
@@ -241,6 +222,7 @@ li {
     opacity: 0.6;
     transform: scale(0.98);
     background-color: rgba(14, 86, 217, 0.1);
+    max-width: 100%;
 }
 
 .task-drag-handle {
@@ -256,21 +238,18 @@ li {
     color: #0e56d9;
 }
 
-/* Estilos para los contenedores durante arrastre */
 .div-container-tasklist-undone.drag-over,
 .div-container-tasklist-done.drag-over {
     background-color: rgba(14, 86, 217, 0.05);
     box-shadow: 0px 0px 15px 0px #0e55d97a;
 }
 
-/* Estilos para las acciones de la tarea (botón eliminar y arrastrar) */
 .task-actions {
     display: flex;
     align-items: center;
     margin-left: auto;
 }
 
-/* Botón para eliminar tarea */
 .delete-task-button {
     background: none;
     border: none;
@@ -308,4 +287,151 @@ li {
 
 .task-drag-handle .icon-blue {
     font-size: 18px;
+}
+
+.dragging-overlay {
+    max-width: 290px !important;
+    width: auto !important;
+    overflow: hidden;
+}
+
+.drag-overlay-wrapper {
+    position: fixed;
+    z-index: 9999;
+    pointer-events: none;
+    overflow: visible;
+    transform-origin: center center;
+    max-width: 290px;
+}
+
+@media screen and (max-width: 767px) {
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 280px;
+        height: 350px;
+    }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1366px) {
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 320px;
+        height: 400px;
+    }
+}
+
+@media screen and (min-width: 1367px) and (max-width: 1919px) {
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 350px;
+        height: 450px;
+    }
+}
+
+@media screen and (min-width: 1920px) and (max-width: 2559px) {
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 450px;
+        height: 550px;
+    }
+}
+
+@media screen and (min-width: 2560px) and (max-width: 3839px) {
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 500px;
+        height: 650px;
+    }
+}
+
+@media screen and (min-width: 3840px) {
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 600px;
+        height: 800px;
+    }
+}
+
+.dragging {
+    opacity: 0.4;
+    transform: scale(0.98);
+    transition: opacity 0.2s, transform 0.2s;
+}
+
+.drag-over {
+    background-color: rgba(14, 86, 217, 0.05);
+    box-shadow: 0 0 0 2px #0e56d9;
+    transition: background-color 0.2s, box-shadow 0.2s;
+}
+
+.task-ghost {
+    background-color: white;
+    border: 1px solid #0e56d9;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(14, 86, 217, 0.4);
+    opacity: 0.9;
+    pointer-events: none;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.task-ghost .task-content {
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.task-ghost .task-text {
+    font-size: 14px;
+    margin-bottom: 4px;
+    color: #333;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@keyframes slideUp {
+    to {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+}
+
+.task-slide-up {
+    animation: slideUp 0.15s ease-out forwards;
+}
+
+.task-slide-down {
+    animation: slideDown 0.15s ease-out forwards;
+}
+
+@keyframes shiftDown {
+    to { transform: translateY(100%); }
+}
+
+@keyframes shiftUp {
+    to { transform: translateY(-100%); }
+}
+
+.shift-down {
+    animation: shiftDown 0.15s ease-out forwards;
+}
+
+.shift-up {
+    animation: shiftUp 0.15s ease-out forwards;
+}
+
+.task-reordering {
+    transition: transform 0.12s ease-out !important;
+}
+
+.sortable-transitions {
+    transition: transform 0.12s ease-out !important;
 }

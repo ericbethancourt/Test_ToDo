@@ -10,6 +10,23 @@ Meteor.methods({
             priority: String,
         });
 
-        return await task.insertAsync(taskinsert);
+        // Determinar la posición máxima actual para tareas no completadas
+        const maxPositionTask = await task.findOneAsync(
+            { done: taskinsert.done },
+            { sort: { position: -1 }, fields: { position: 1 } }
+        );
+
+        // Establecer la nueva posición como la máxima + 1, o 0 si no hay tareas
+        const newPosition = maxPositionTask && typeof maxPositionTask.position === 'number' 
+            ? maxPositionTask.position + 1 
+            : 0;
+
+        // Añadir la posición a la tarea
+        const taskWithPosition = {
+            ...taskinsert,
+            position: newPosition
+        };
+
+        return await task.insertAsync(taskWithPosition);
     },
 });
