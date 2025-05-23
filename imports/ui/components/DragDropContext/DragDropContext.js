@@ -74,7 +74,7 @@ export const useDragSensors = () => {
 
 // Función para animar cambios de layout
 export const animateLayoutChanges = (args) => {
-    const { isSorting, wasSorting, isDragging, draggedElement, container, index, transition, node } = args;
+    const { isSorting, wasSorting, draggedElement, transition, node } = args;
     
     // Añadir clase de transición personalizada
     if (node) {
@@ -112,7 +112,6 @@ const DragDropContext = ({
     onDragOver, 
     onDragEnd, 
     activeId, 
-    activeElement,
     renderDragOverlay 
 }) => {
     // Usar los sensores predefinidos

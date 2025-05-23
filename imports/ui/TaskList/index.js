@@ -3,7 +3,6 @@ import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { task } from '/imports/api/task_collection/task';
 import '/imports/ui/styles/tasklist.css';
-import { FaTrash, FaCheck, FaBars } from 'react-icons/fa';
 import TaskContainer from '/imports/ui/components/TaskContainer/taskcontainer';
 import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
 
@@ -14,7 +13,7 @@ import {
     reorderTasks, 
     generateNewTaskLists 
 } from '/imports/ui/components/TaskOperations/TaskOperations';
-import { PRIORITY_LEVELS, PRIORITY_VALUES, PRIORITY_CLASSES, PRIORITY_LABELS } from '/imports/ui/utils/constants';
+import { PRIORITY_LEVELS, PRIORITY_CLASSES, PRIORITY_LABELS, formatDate } from '/imports/ui/utils/constants';
 
 const TaskList = () => {
     const [activeId, setActiveId] = useState(null);
@@ -278,27 +277,11 @@ const TaskList = () => {
     const renderDragOverlay = () => {
         if (!activeTask) return null;
         
-        return (
-            <div className="task-container dragging-overlay">
-                <li className="task-item">
-                    <div className="task-content">
-                        <span className="task-text">{activeTask.name_task}</span>
-                        <span className={`priority-badge ${getPriorityClass(activeTask.priority)}`}>
-                            {getPriorityLabel(activeTask.priority)}
-                        </span>
-                    </div>
-                    <div className="task-actions">
-                        <button className="delete-task-button">
-                            <FaTrash className="icon-blue" />
-                        </button>
-                        <div className="task-drag-handle">
-                            <span className="drag-icon">
-                                {activeTask.done ? <FaCheck className="icon-blue" /> : <FaBars className="icon-blue" />}
-                            </span>
-                        </div>
-                    </div>
-                </li>
-            </div>
+        // Usar la función estática de TaskContainer para mantener encapsulación
+        return TaskContainer.renderTaskOverlay(
+            activeTask, 
+            getPriorityClass, 
+            getPriorityLabel
         );
     };
     

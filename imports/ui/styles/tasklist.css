@@ -70,30 +70,35 @@ li {
     margin-right: 10px;
 }
 
-.task-checkbox {
-    margin-left: auto;
-    cursor: pointer;
-}
-
-
-.task-checkbox:hover {
-    background-color: #0e56d9;
-    box-shadow: 0px 0px 10px 0px #0e55d9ee;
-    transition: all 0.3s ease-in;
-}
-
 .task-content {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
 }
 
+/* Contenedor para etiqueta de prioridad y fecha */
+.task-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 3px;
+}
+
 .priority-badge {
     font-size: 12px;
     padding: 2px 6px;
     border-radius: 4px;
-    margin-top: 3px;
     font-weight: bold;
+}
+
+/* Estilo para las fechas */
+.task-date {
+    font-size: 10px;
+    color: #666;
+    font-weight: normal;
+    background-color: transparent;
+    padding: 0;
+    margin: 0;
 }
 
 .priority-muy-urgente {
@@ -131,14 +136,6 @@ li {
     transition: all 0.2s ease-in-out;
     pointer-events: none;
     opacity: 0.7;
-}
-
-.separador-highlight {
-    height: 3px;
-    background: #0e56d9;
-    box-shadow: 0px 0px 10px 0px #0e56d9;
-    opacity: 1;
-    margin: 3px 0;
 }
 
 .task-container {
@@ -250,6 +247,7 @@ li {
     margin-left: auto;
 }
 
+.edit-task-button,
 .delete-task-button {
     background: none;
     border: none;
@@ -262,11 +260,18 @@ li {
     transform: translateX(10px);
 }
 
+/* El botón de editar sale desde el icono de eliminar (más hacia la derecha) */
+.edit-task-button {
+    transform: translateX(20px);
+}
+
+.task-item:hover .edit-task-button,
 .task-item:hover .delete-task-button {
     opacity: 1;
     transform: translateX(0);
 }
 
+.edit-task-button:hover,
 .delete-task-button:hover {
     transform: scale(1.2);
 }
@@ -276,10 +281,12 @@ li {
     font-size: 16px;
 }
 
+.edit-task-button .icon-blue,
 .delete-task-button .icon-blue {
     transition: transform 0.2s ease, color 0.2s ease;
 }
 
+.edit-task-button:hover .icon-blue,
 .delete-task-button:hover .icon-blue {
     transform: scale(1.2);
     color: #0a3d97;
@@ -388,44 +395,6 @@ li {
     color: #333;
     overflow: hidden;
     text-overflow: ellipsis;
-}
-
-@keyframes slideUp {
-    to {
-        opacity: 0;
-        transform: translateY(-5px);
-    }
-}
-
-@keyframes slideDown {
-    from {
-        opacity: 0;
-        transform: translateY(-5px);
-    }
-}
-
-.task-slide-up {
-    animation: slideUp 0.15s ease-out forwards;
-}
-
-.task-slide-down {
-    animation: slideDown 0.15s ease-out forwards;
-}
-
-@keyframes shiftDown {
-    to { transform: translateY(100%); }
-}
-
-@keyframes shiftUp {
-    to { transform: translateY(-100%); }
-}
-
-.shift-down {
-    animation: shiftDown 0.15s ease-out forwards;
-}
-
-.shift-up {
-    animation: shiftUp 0.15s ease-out forwards;
 }
 
 .task-reordering {

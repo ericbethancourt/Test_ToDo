@@ -32,4 +32,16 @@ export const PRIORITY_LABELS = {
     [PRIORITY_LEVELS.NORMAL]: 'Normal',
     [PRIORITY_LEVELS.LOW]: 'Baja',
     [PRIORITY_LEVELS.NOT_URGENT]: 'No urgente'
+};
+
+// Función para formatear fechas en formato dd/mm/aaaa
+export const formatDate = (date) => {
+    if (!date) return '';
+    
+    const d = new Date(date);
+    const day = d.getDate().toString().padStart(2, '0');
+    const month = (d.getMonth() + 1).toString().padStart(2, '0');
+    const year = d.getFullYear();
+    
+    return `${day}/${month}/${year}`;
 }; 

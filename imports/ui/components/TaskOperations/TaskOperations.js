@@ -204,4 +204,94 @@ export const generateNewTaskLists = (activeTask, overTask, localTaskUndone, loca
         undone: localTaskUndone,
         done: localTaskDone
     };
+};
+
+// Función para editar una tarea
+export const editTask = (task, priorityLevels, priorityLabels, onSuccess, onError) => {
+    // Crear las opciones para el select de prioridad
+    const priorityOptions = Object.entries(priorityLevels).map(([key, value]) => 
+        `<option value="${value}" ${value === task.priority ? 'selected' : ''}>${priorityLabels[value]}</option>`
+    ).join('');
+
+    Swal.fire({
+        title: 'Editar Tarea',
+        html: `
+            <div style="text-align: left;">
+                <label 
+                for="swal-input-name" 
+                style="display: flex; font-weight: bold;">
+                Nombre de la tarea:
+                </label>
+
+                <input id="swal-input-name" 
+                class="swal2-input" value="${task.name_task}" 
+                placeholder="Nombre de la tarea" 
+                style="margin-bottom: 0px; margin-top: 0px; margin-left: 0px; font-size: 14px;">
+                
+                <label for="swal-input-priority" 
+                style="display: block; margin-bottom: 5px; font-weight: bold;">
+                Prioridad:
+                </label>
+
+                <select
+                id="swal-input-priority" 
+                class="swal2-input" 
+                style="margin-bottom: 15px;">
+                    ${priorityOptions}
+                </select>
+            </div>
+        `,
+        showCancelButton: true,
+        confirmButtonText: 'Guardar cambios',
+        cancelButtonText: 'Cancelar',
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        focusConfirm: false,
+        preConfirm: () => {
+            const name = document.getElementById('swal-input-name').value;
+            const priority = document.getElementById('swal-input-priority').value;
+            
+            if (!name.trim()) {
+                Swal.showValidationMessage('El nombre de la tarea no puede estar vacío');
+                return false;
+            }
+            
+            return { name: name.trim(), priority: priority };
+        }
+    }).then((result) => {
+        if (result.isConfirmed) {
+            const { name, priority } = result.value;
+            
+            // Solo actualizar si realmente cambió algo
+            if (name !== task.name_task || priority !== task.priority) {
+                Meteor.call("task.edit", task._id, name, priority, (error) => {
+                    if (error) {
+                        Swal.fire({
+                            toast: true,
+                            position: 'bottom',
+                            icon: 'error',
+                            title: 'Error',
+                            text: error.reason || 'No se pudo editar la tarea',
+                            showConfirmButton: false,
+                            timer: 2000
+                        });
+                        
+                        if (onError) onError(error);
+                    } else {
+                        Swal.fire({
+                            toast: true,
+                            position: 'bottom',
+                            icon: 'success',
+                            title: '¡Editada!',
+                            text: 'La tarea ha sido actualizada',
+                            showConfirmButton: false,
+                            timer: 1500
+                        });
+                        
+                        if (onSuccess) onSuccess();
+                    }
+                });
+            }
+        }
+    });
 }; 

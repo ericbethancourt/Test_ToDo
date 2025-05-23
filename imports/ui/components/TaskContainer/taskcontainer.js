@@ -17,7 +17,7 @@ const TaskContainer = ({ id, title, tasks, isDone, isLoading, getPriorityClass, 
             ref={setNodeRef}
             className={containerClass}
         >
-            <h2 className={isDone ? '' : 'h2-task-undone'}>{title}</h2>
+            <h2>{title}</h2>
             {isLoading ? (
                 <p>Cargando tareas...</p>
             ) : tasks.length === 0 ? (
@@ -35,6 +35,22 @@ const TaskContainer = ({ id, title, tasks, isDone, isLoading, getPriorityClass, 
                     />
                 ))
             )}
+        </div>
+    );
+};
+
+// Función estática para renderizar overlay - mantiene encapsulación
+TaskContainer.renderTaskOverlay = (task, getPriorityClass, getPriorityLabel) => {
+    return (
+        <div className="dragging-overlay">
+            <TaskItem 
+                task={task}
+                index={0}
+                isLastItem={true}
+                isDone={task.done}
+                getPriorityClass={getPriorityClass}
+                getPriorityLabel={getPriorityLabel}
+            />
         </div>
     );
 };

@@ -21,10 +21,12 @@ Meteor.methods({
             ? maxPositionTask.position + 1 
             : 0;
 
-        // Añadir la posición a la tarea
+        // Crear tarea con posición, fecha de creación y fecha de finalización inicial
         const taskWithPosition = {
             ...taskinsert,
-            position: newPosition
+            position: newPosition,
+            createdAt: new Date(),
+            completedAt: null
         };
 
         return await task.insertAsync(taskWithPosition);
