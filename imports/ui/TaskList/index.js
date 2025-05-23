@@ -29,7 +29,6 @@ const TaskList = () => {
     const lastTaskDoneIds = useRef([]);
     
     // Funciones de utilidad para prioridades
-    const getPriorityValue = (priority) => PRIORITY_VALUES[priority] || PRIORITY_VALUES[PRIORITY_LEVELS.NORMAL];
     const getPriorityClass = (priority) => PRIORITY_CLASSES[priority] || PRIORITY_CLASSES[PRIORITY_LEVELS.NORMAL];
     const getPriorityLabel = (priority) => PRIORITY_LABELS[priority] || PRIORITY_LABELS[PRIORITY_LEVELS.NORMAL];
 

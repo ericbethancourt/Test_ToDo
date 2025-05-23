@@ -4,7 +4,6 @@ import '/imports/ui/styles/tasklist.css';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { deleteTask } from '/imports/ui/components/TaskOperations/TaskOperations';
-import { PRIORITY_CLASSES, PRIORITY_LEVELS } from '/imports/ui/utils/constants';
 
 const TaskItem = ({ task, index, isLastItem, isDone, getPriorityClass, getPriorityLabel }) => {
     // Configuración optimizada con mejores opciones de interactividad
