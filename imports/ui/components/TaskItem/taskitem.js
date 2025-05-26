@@ -1,6 +1,5 @@
 import React from 'react';
 import { FaTrash, FaCheck, FaBars, FaEdit } from 'react-icons/fa';
-import { CiEdit } from "react-icons/ci";
 import '/imports/ui/styles/tasklist.css';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
@@ -104,13 +103,15 @@ const TaskItem = ({ task, index, isLastItem, isDone, getPriorityClass, getPriori
                     </div>
                 </div>
                 <div className="task-actions">
-                    <button 
-                        className="edit-task-button" 
-                        onClick={handleEditTask}
-                        title="Editar tarea"
-                    >
-                        <FaEdit className="icon-blue" />
-                    </button>
+                    {!isDone && (
+                        <button 
+                            className="edit-task-button" 
+                            onClick={handleEditTask}
+                            title="Editar tarea"
+                        >
+                            <FaEdit className="icon-blue" />
+                        </button>
+                    )}
                     <button 
                         className="delete-task-button" 
                         onClick={handleDeleteTask}

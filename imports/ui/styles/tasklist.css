@@ -404,3 +404,60 @@ li {
 .sortable-transitions {
     transition: transform 0.12s ease-out !important;
 }
+
+.swal-popup-rounded {
+    border-radius: 10px;
+}
+
+.swal-title-styled {
+    border-radius: 10px 10px 0px 0px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #ffffff;
+    background-color: #0e56d9;
+    margin : 0px;
+    padding: 7px;
+}
+
+.swal2-input-n {
+    width: 100%; 
+    margin-bottom: 10px; 
+    margin-top: 0px; 
+    margin-left: 0px; 
+    padding: 5px;
+    font-size: 14px; 
+    border: none; 
+    border-bottom: 1.5px solid #0e56d9;
+    outline: none; 
+    border-radius: 5px; 
+    text-decoration: none;
+}
+
+.swal2-input-p {
+    width: 100%;
+    padding: 7px;
+    margin-bottom: 15px; 
+    border-radius: 4px; 
+    border: 1px solid #0e56d9;
+    box-shadow: 0px 0px 10px 0px #0e55d94b;
+}
+
+/* Estilos para el loading */
+.loading-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    opacity: 0.8;
+}
+
+.loading-container p {
+    color: #666;
+    font-size: 14px;
+    margin: 0;
+}

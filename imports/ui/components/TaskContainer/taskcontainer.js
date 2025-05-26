@@ -19,7 +19,10 @@ const TaskContainer = ({ id, title, tasks, isDone, isLoading, getPriorityClass, 
         >
             <h2>{title}</h2>
             {isLoading ? (
-                <p>Cargando tareas...</p>
+                <div className="loading-container">
+                    <img src="/loading.svg" alt="Cargando..." className="loading-spinner" />
+                    <p>Cargando tareas...</p>
+                </div>
             ) : tasks.length === 0 ? (
                 <p>No hay tareas {isDone ? 'completadas' : 'pendientes'}</p>
             ) : (

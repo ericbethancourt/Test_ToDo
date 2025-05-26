@@ -1,6 +1,7 @@
 import { Meteor } from 'meteor/meteor';
 import Swal from 'sweetalert2';
 import { arrayMove } from '@dnd-kit/sortable';
+import '/imports/ui/styles/tasklist.css';
 
 // Función para actualizar el estado de una tarea (completada/pendiente)
 export const updateTaskStatus = (taskId, newStatus, onSuccess, onError) => {
@@ -215,28 +216,31 @@ export const editTask = (task, priorityLevels, priorityLabels, onSuccess, onErro
 
     Swal.fire({
         title: 'Editar Tarea',
+        customClass: {
+            popup: 'swal-popup-rounded',
+            title: 'swal-title-styled'
+        },
         html: `
             <div style="text-align: left;">
                 <label 
                 for="swal-input-name" 
-                style="display: flex; font-weight: bold;">
+                style="display: flex; font-weight: bold; font-size:16px; margin-bottom:5px">
                 Nombre de la tarea:
                 </label>
 
                 <input id="swal-input-name" 
-                class="swal2-input" value="${task.name_task}" 
-                placeholder="Nombre de la tarea" 
-                style="margin-bottom: 0px; margin-top: 0px; margin-left: 0px; font-size: 14px;">
+                class="swal2-input-n" value="${task.name_task}" 
+                placeholder="Nombre de la tarea">
                 
                 <label for="swal-input-priority" 
-                style="display: block; margin-bottom: 5px; font-weight: bold;">
+                style="display: block; margin-bottom: 5px; font-weight: bold; font-size:16px; 
+                margin-top: 10px;  text-decoration: none;" >
                 Prioridad:
                 </label>
 
                 <select
                 id="swal-input-priority" 
-                class="swal2-input" 
-                style="margin-bottom: 15px;">
+                class="swal2-input-p">
                     ${priorityOptions}
                 </select>
             </div>

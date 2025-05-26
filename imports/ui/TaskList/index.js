@@ -51,41 +51,50 @@ const TaskList = () => {
     
     // Actualizar los estados locales cuando cambian los datos de la base de datos
     useEffect(() => {
-        // Si estamos cargando, no hacer nada
-        if (isLoading) return;
-        
+        // Si estamos cargando o hay una operación de arrastre activa, no hacer nada
+        if (isLoading || activeId) return;
+
         // Primera carga: inicializar el estado local
         if (isInitialMount.current) {
             isInitialMount.current = false;
             setLocalTaskUndone(taskUndone);
             setLocalTaskDone(taskDone);
-            
-            // Guardar los IDs actuales
             lastTaskUndoneIds.current = taskUndone.map(t => t._id);
             lastTaskDoneIds.current = taskDone.map(t => t._id);
             return;
         }
-        
+
         // Para actualizaciones posteriores, verificar si realmente hay cambios
-        // en la estructura de los datos desde la base de datos
         const currentUndoneIds = taskUndone.map(t => t._id);
         const currentDoneIds = taskDone.map(t => t._id);
-        
-        // Verificar si los IDs han cambiado (adiciones/eliminaciones)
+
         const undoneIdsChanged = JSON.stringify(currentUndoneIds) !== JSON.stringify(lastTaskUndoneIds.current);
         const doneIdsChanged = JSON.stringify(currentDoneIds) !== JSON.stringify(lastTaskDoneIds.current);
-        
-        // Actualizar solo si hay cambios en la estructura
-        if (undoneIdsChanged) {
+
+        // Comprobar si el contenido de alguna tarea ha cambiado
+        // Esto es crucial para detectar ediciones
+        const hasContentChanged = (localTasks, dbTasks) => {
+            if (localTasks.length !== dbTasks.length) return true; // si hay adiciones/eliminaciones
+            return dbTasks.some(dbTask => {
+                const localTask = localTasks.find(lt => lt._id === dbTask._id);
+                // Si la tarea no existe localmente (improbable si los IDs no cambiaron) o si su contenido es diferente
+                return !localTask || JSON.stringify(localTask) !== JSON.stringify(dbTask);
+            });
+        };
+
+        const undoneContentChanged = hasContentChanged(localTaskUndone, taskUndone);
+        const doneContentChanged = hasContentChanged(localTaskDone, taskDone);
+
+        if (undoneIdsChanged || undoneContentChanged) {
             setLocalTaskUndone(taskUndone);
             lastTaskUndoneIds.current = currentUndoneIds;
         }
-        
-        if (doneIdsChanged) {
+
+        if (doneIdsChanged || doneContentChanged) {
             setLocalTaskDone(taskDone);
             lastTaskDoneIds.current = currentDoneIds;
         }
-    }, [taskUndone, taskDone, isLoading]);
+    }, [taskUndone, taskDone, isLoading, activeId, localTaskUndone, localTaskDone]); // Agregamos activeId, localTaskUndone y localTaskDone a las dependencias
     
     // Crear arrays de IDs para usar con SortableContext
     const undoneIds = localTaskUndone.map(item => item._id);
