@@ -2,14 +2,60 @@
   font-family: 'system-ui', sans-serif;
 }
 
+html {
+  overflow-x: hidden;
+  position: relative;
+}
+
 body {
   margin: 0;
   font-family: system-ui;
   width: 75%;
-  height: 100vh;
+  min-height: 100vh;
   margin: 0 auto;
-  border: 1px solid #0e56d9;
-  border-bottom: none;
-  border-top: none;
+  position: relative;
+  box-sizing: border-box;
+}
+
+body.swal2-shown {
+  overflow: hidden !important; 
+  padding-right: 0 !important;
+}
+
+body::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 75%;
+  height: 100vh;
+  border-left: 1px solid #0e56d9;
+  border-right: 1px solid #0e56d9;
   border-radius: 12px 12px 0px 0px;
+  pointer-events: none;
+  z-index: 9998;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+  body::before {
+    width: 75%;
+  }
+  body.swal2-shown {
+    width: 75% !important; 
+  }
+}
+
+@media screen and (max-width: 480px) {
+  body {
+    width: 90%;
+  }
+  
+  body::before {
+    width: 90%;
+  }
+  body.swal2-shown {
+    width: 90% !important;
+  }
 }

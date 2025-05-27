@@ -22,10 +22,11 @@ Meteor.methods({
         return await task.updateAsync(taskId, {$set: updateFields});
     },
 
-    async 'task.edit'(taskId, taskName, priority){
+    async 'task.edit'(taskId, taskName, priority, description){
         check(taskId, String);
         check(taskName, String);
         check(priority, String);
+        check(description, String);
         
         // Validar que el nombre no esté vacío
         if (taskName.trim().length === 0) {
@@ -35,7 +36,8 @@ Meteor.methods({
         // Preparar los campos a actualizar
         const updateFields = { 
             name_task: taskName.trim(),
-            priority: priority
+            priority: priority,
+            description: description.trim()
         };
         
         return await task.updateAsync(taskId, {$set: updateFields});

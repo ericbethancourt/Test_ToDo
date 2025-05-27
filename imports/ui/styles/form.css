@@ -1,88 +1,54 @@
 .div-container-form {
+    margin: 0;
+    padding: 0;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-direction: column;
 }
 
 .div-container-form h1 {
-    padding-top: 0px;
-    margin-top: 0px;
-    width: 100%;
-    text-align: center;
-    background-color: #0e56d9;
-    color: white;
-    border-radius: 10px 10px 0px 0px;
+    display: none;
 }
 
-.form-subtitle {
-    font-size: 16px;
+.add-task-container {
+    display: flex;
+    margin: 0;
+    padding: 0;
+}
+
+.add-task-button {
+    background-color: #0e56d9;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    font-size: 15px;
     font-weight: bold;
-    margin-top: 10px;
-    margin-bottom: 3px;
-    
-}
-
-.form-container {
-    display: flex;
-   justify-content: space-between;
-   width: 400px;
-   height: 35px;
-}
-
-.form-input {
-    font-size: 14px;
-    text-align: center;
-    text-decoration: none;
-    margin-right: 0px;
-    border: none;
-    border-bottom: 1.5px solid #0e56d9;
-    width: 100%;
-    padding: 5px;
-    outline: none;
-    border-radius: 0px 0px 0px 5px;
-}
-
-.form-button {
-    color: white;
-    display: flex;
-    margin-left: 0;
-    margin-right: 0;
-    border: none;
-    background-color: #0e56d9;
+    border-radius: 8px;
     cursor: pointer;
-    padding: 5px;
-    border-radius: 0px 5px 5px 0px;
-    align-items: center;
+    transition: all 0.3s ease;
+    box-shadow: 0px 2px 8px rgba(14, 86, 217, 0.3);
+    white-space: nowrap;
+    margin: 0;
 }
 
-.form-button:hover {
+.add-task-button:hover {
     background-color: #2d67d3;
-    box-shadow: 0px 0px 10px 0px #0e55d965;
-    transition: all 0.2s ease-in
+    box-shadow: 0px 4px 12px rgba(14, 86, 217, 0.4);
+    transform: translateY(-1px);
 }
 
-/* Estilos para el selector de prioridad */
-.priority-selector {
-    display: flex;
-    align-items: center;
-    margin: 10px 0;
-    
-}
+.add-task-button:active {
+    transform: translateY(0);
+    box-shadow: 0px 1px 6px rgba(14, 86, 217, 0.3);
+} 
 
-.priority-selector label {
-    margin-left: 10px;
-    font-size: 14px;
-    
-}
-
-.priority-select {
-    display: flex;
-    padding: 4px 8px;
-    margin-left: 2px;
-    border: 1px solid #0e56d9;
-    border-radius: 4px;
-    font-size: 14px;
-    outline: none;
-    box-shadow: 0px 0px 10px 0px #0e55d94b;
+@media screen and (max-width: 767px) {
+    .add-task-container {
+        justify-content: center;
+        width: 100%;
+    }
+    .add-task-button {
+        width: auto;
+        padding: 12px 20px;
+    }
 }

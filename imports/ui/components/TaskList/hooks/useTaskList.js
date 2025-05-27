@@ -1,35 +1,30 @@
-import React, { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useTracker } from 'meteor/react-meteor-data';
 import { Meteor } from 'meteor/meteor';
 import { task } from '/imports/api/task_collection/task';
-import '/imports/ui/styles/tasklist.css';
-import TaskContainer from '/imports/ui/components/TaskContainer/taskcontainer';
-import { arrayMove, SortableContext, verticalListSortingStrategy } from '@dnd-kit/sortable';
-
-// Importar componentes y funciones reutilizables
-import DragDropContext, { animateLayoutChanges } from '/imports/ui/components/DragDropContext/DragDropContext';
+import { arrayMove } from '@dnd-kit/sortable';
 import { 
     updateTaskStatus, 
     reorderTasks, 
     generateNewTaskLists 
 } from '/imports/ui/components/TaskOperations/TaskOperations';
-import { PRIORITY_LEVELS, PRIORITY_CLASSES, PRIORITY_LABELS, formatDate } from '/imports/ui/utils/constants';
+import { applyTaskFilters } from '/imports/ui/utils/taskFilters';
 
-const TaskList = () => {
+export const useTaskList = () => {
     const [activeId, setActiveId] = useState(null);
     const [activeTask, setActiveTask] = useState(null);
     // Estados locales para las tareas
     const [localTaskUndone, setLocalTaskUndone] = useState([]);
     const [localTaskDone, setLocalTaskDone] = useState([]);
     
+    // Estados para los filtros
+    const [individualFilter, setIndividualFilter] = useState('');
+    const [groupFilter, setGroupFilter] = useState('');
+    
     // Referencia para controlar la inicialización
     const isInitialMount = useRef(true);
     const lastTaskUndoneIds = useRef([]);
     const lastTaskDoneIds = useRef([]);
-    
-    // Funciones de utilidad para prioridades
-    const getPriorityClass = (priority) => PRIORITY_CLASSES[priority] || PRIORITY_CLASSES[PRIORITY_LEVELS.NORMAL];
-    const getPriorityLabel = (priority) => PRIORITY_LABELS[priority] || PRIORITY_LABELS[PRIORITY_LEVELS.NORMAL];
 
     // Obtener datos de tareas de la base de datos
     const { taskUndone, taskDone, isLoading } = useTracker(() => {
@@ -94,11 +89,15 @@ const TaskList = () => {
             setLocalTaskDone(taskDone);
             lastTaskDoneIds.current = currentDoneIds;
         }
-    }, [taskUndone, taskDone, isLoading, activeId, localTaskUndone, localTaskDone]); // Agregamos activeId, localTaskUndone y localTaskDone a las dependencias
+    }, [taskUndone, taskDone, isLoading, activeId, localTaskUndone, localTaskDone]);
+    
+    // Aplicar filtros a las tareas
+    const filteredTaskUndone = applyTaskFilters(localTaskUndone, individualFilter, groupFilter);
+    const filteredTaskDone = applyTaskFilters(localTaskDone, individualFilter, groupFilter);
     
     // Crear arrays de IDs para usar con SortableContext
-    const undoneIds = localTaskUndone.map(item => item._id);
-    const doneIds = localTaskDone.map(item => item._id);
+    const undoneIds = filteredTaskUndone.map(item => item._id);
+    const doneIds = filteredTaskDone.map(item => item._id);
     
     // Función que se ejecuta cuando comienza el arrastre
     const handleDragStart = (event) => {
@@ -281,65 +280,26 @@ const TaskList = () => {
             }
         }
     };
-    
-    // Renderizar un overlay para la tarea durante el arrastre
-    const renderDragOverlay = () => {
-        if (!activeTask) return null;
-        
-        // Usar la función estática de TaskContainer para mantener encapsulación
-        return TaskContainer.renderTaskOverlay(
-            activeTask, 
-            getPriorityClass, 
-            getPriorityLabel
-        );
-    };
-    
-    return (
-        <>
-            <h2 className="h2-title">Lista de tareas</h2>
-            <DragDropContext
-                onDragStart={handleDragStart}
-                onDragOver={handleDragOver}
-                onDragEnd={handleDragEnd}
-                activeId={activeId}
-                renderDragOverlay={renderDragOverlay}
-            >
-                <div className="div-container-tasklist">
-                    <SortableContext 
-                        items={undoneIds}
-                        strategy={verticalListSortingStrategy}
-                        animateLayoutChanges={animateLayoutChanges}
-                    >
-                        <TaskContainer 
-                            id="container-undone"
-                            title="Tareas pendientes" 
-                            tasks={localTaskUndone} 
-                            isDone={false}
-                            isLoading={isLoading}
-                            getPriorityClass={getPriorityClass}
-                            getPriorityLabel={getPriorityLabel}
-                        />
-                    </SortableContext>
-                    
-                    <SortableContext 
-                        items={doneIds}
-                        strategy={verticalListSortingStrategy}
-                        animateLayoutChanges={animateLayoutChanges}
-                    >
-                        <TaskContainer 
-                            id="container-done"
-                            title="Tareas completadas" 
-                            tasks={localTaskDone} 
-                            isDone={true}
-                            isLoading={isLoading}
-                            getPriorityClass={getPriorityClass}
-                            getPriorityLabel={getPriorityLabel}
-                        />
-                    </SortableContext>
-                </div>
-            </DragDropContext>
-        </>
-    );
-};
 
-export default TaskList;
+    return {
+        // Estados
+        activeId,
+        activeTask,
+        isLoading,
+        filteredTaskUndone,
+        filteredTaskDone,
+        undoneIds,
+        doneIds,
+        individualFilter,
+        groupFilter,
+        
+        // Setters para filtros
+        setIndividualFilter,
+        setGroupFilter,
+        
+        // Handlers de drag & drop
+        handleDragStart,
+        handleDragOver,
+        handleDragEnd
+    };
+}; 

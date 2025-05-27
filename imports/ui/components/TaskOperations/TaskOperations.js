@@ -1,7 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import Swal from 'sweetalert2';
 import { arrayMove } from '@dnd-kit/sortable';
-import '/imports/ui/styles/tasklist.css';
 
 // Función para actualizar el estado de una tarea (completada/pendiente)
 export const updateTaskStatus = (taskId, newStatus, onSuccess, onError) => {
@@ -220,6 +219,8 @@ export const editTask = (task, priorityLevels, priorityLabels, onSuccess, onErro
             popup: 'swal-popup-rounded',
             title: 'swal-title-styled'
         },
+        allowOutsideClick: false,
+        allowEscapeKey: true,
         html: `
             <div style="text-align: left;">
                 <label 
@@ -230,7 +231,21 @@ export const editTask = (task, priorityLevels, priorityLabels, onSuccess, onErro
 
                 <input id="swal-input-name" 
                 class="swal2-input-n" value="${task.name_task}" 
-                placeholder="Nombre de la tarea">
+                placeholder="Nombre de la tarea"
+                style="margin-bottom: 15px;">
+                
+                <label for="swal-input-description" 
+                style="display: block; font-weight: bold; font-size:16px; margin-bottom:5px">
+                Descripción:
+                </label>
+                
+                <textarea id="swal-input-description" 
+                          class="swal2-textarea-desc" 
+                          placeholder="Describe la tarea (opcional)"
+                          rows="3"
+                          style="width: 100%; padding: 8px; border: none; border-bottom: 1.5px solid #0e56d9; 
+                                 outline: none; border-radius: 5px; font-family: system-ui; font-size: 14px;
+                                 resize: vertical; margin-bottom: 15px;">${task.description || ''}</textarea>
                 
                 <label for="swal-input-priority" 
                 style="display: block; margin-bottom: 5px; font-weight: bold; font-size:16px; 
@@ -253,6 +268,7 @@ export const editTask = (task, priorityLevels, priorityLabels, onSuccess, onErro
         focusConfirm: false,
         preConfirm: () => {
             const name = document.getElementById('swal-input-name').value;
+            const description = document.getElementById('swal-input-description').value;
             const priority = document.getElementById('swal-input-priority').value;
             
             if (!name.trim()) {
@@ -260,15 +276,15 @@ export const editTask = (task, priorityLevels, priorityLabels, onSuccess, onErro
                 return false;
             }
             
-            return { name: name.trim(), priority: priority };
+            return { name: name.trim(), description: description.trim(), priority: priority };
         }
     }).then((result) => {
         if (result.isConfirmed) {
-            const { name, priority } = result.value;
+            const { name, description, priority } = result.value;
             
             // Solo actualizar si realmente cambió algo
-            if (name !== task.name_task || priority !== task.priority) {
-                Meteor.call("task.edit", task._id, name, priority, (error) => {
+            if (name !== task.name_task || description !== (task.description || '') || priority !== task.priority) {
+                Meteor.call("task.edit", task._id, name, priority, description, (error) => {
                     if (error) {
                         Swal.fire({
                             toast: true,

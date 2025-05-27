@@ -1,7 +1,7 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import {Home} from '/imports/ui/home/Home';
-import { NotFound } from '/imports/ui/not_found/index';
+import {Home} from '/imports/ui/Home/home';
+import { NotFound } from '/imports/ui/NotFound/notfound';
 
 export const AppRouter = () => {
   return (

@@ -1,6 +1,5 @@
 import React from 'react';
 import { FaTrash, FaCheck, FaBars, FaEdit } from 'react-icons/fa';
-import '/imports/ui/styles/tasklist.css';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 import { deleteTask, editTask } from '/imports/ui/components/TaskOperations/TaskOperations';

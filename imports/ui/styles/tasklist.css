@@ -6,12 +6,17 @@
 }
 
 .h2-title {
-    margin-top: 25px;
     margin-bottom: 15px;
+    margin-top: 0px;
     font-size: 20px;
     font-weight: bold;
-    width: 100%;
     text-align: center;
+    color: #ffffff;
+    background-color: #0e56d9;
+    padding: 10px;
+    border-radius: 10px 10px 0 0;
+    width: 100%;
+    box-sizing: border-box;
 }
 
 .div-container-tasklist-undone,
@@ -20,8 +25,6 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    width: 300px;
-    height: 400px;
     overflow-y: auto;
     overflow-x: hidden;
     background-color: rgba(240, 248, 255, 0);
@@ -76,7 +79,6 @@ li {
     align-items: flex-start;
 }
 
-/* Contenedor para etiqueta de prioridad y fecha */
 .task-meta {
     display: flex;
     align-items: center;
@@ -91,7 +93,6 @@ li {
     font-weight: bold;
 }
 
-/* Estilo para las fechas */
 .task-date {
     font-size: 10px;
     color: #666;
@@ -260,7 +261,6 @@ li {
     transform: translateX(10px);
 }
 
-/* El botón de editar sale desde el icono de eliminar (más hacia la derecha) */
 .edit-task-button {
     transform: translateX(20px);
 }
@@ -314,48 +314,48 @@ li {
 @media screen and (max-width: 767px) {
     .div-container-tasklist-undone,
     .div-container-tasklist-done {
-        width: 280px;
-        height: 350px;
+        width: 310px;
+        height: 400px;
     }
 }
 
 @media screen and (min-width: 768px) and (max-width: 1366px) {
     .div-container-tasklist-undone,
     .div-container-tasklist-done {
-        width: 320px;
-        height: 400px;
+        width: 420px;
+        height: 460px;
     }
 }
 
 @media screen and (min-width: 1367px) and (max-width: 1919px) {
     .div-container-tasklist-undone,
     .div-container-tasklist-done {
-        width: 350px;
-        height: 450px;
+        width: 465px;
+        height: 540px;
     }
 }
 
 @media screen and (min-width: 1920px) and (max-width: 2559px) {
     .div-container-tasklist-undone,
     .div-container-tasklist-done {
-        width: 450px;
-        height: 550px;
+        width: 575px;
+        height: 655px;
     }
 }
 
 @media screen and (min-width: 2560px) and (max-width: 3839px) {
     .div-container-tasklist-undone,
     .div-container-tasklist-done {
-        width: 500px;
-        height: 650px;
+        width: 640px;
+        height: 770px;
     }
 }
 
 @media screen and (min-width: 3840px) {
     .div-container-tasklist-undone,
     .div-container-tasklist-done {
-        width: 600px;
-        height: 800px;
+        width: 740px;
+        height: 940px;
     }
 }
 
@@ -442,7 +442,6 @@ li {
     box-shadow: 0px 0px 10px 0px #0e55d94b;
 }
 
-/* Estilos para el loading */
 .loading-container {
     display: flex;
     flex-direction: column;
@@ -460,4 +459,158 @@ li {
     color: #666;
     font-size: 14px;
     margin: 0;
+}
+
+/* Vista para móviles - pantallas muy pequeñas */
+@media screen and (max-width: 480px) {
+    .div-container-tasklist {
+        flex-direction: column;
+        align-items: center;
+        gap: 15px;
+        padding: 10px;
+    }
+    
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 95%;
+        max-width: 350px;
+        height: 300px;
+        margin: 0;
+    }
+    
+    .div-container-tasklist-undone {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .div-container-tasklist-done {
+        margin-left: 0;
+        margin-top: 10px;
+    }
+    
+    /* Ajustar tamaño de tareas para móvil */
+    .task-item {
+        width: 90%;
+        padding: 12px 8px;
+        font-size: 14px;
+    }
+    
+    /* Mejorar área táctil de botones */
+    .edit-task-button,
+    .delete-task-button {
+        padding: 8px;
+        font-size: 18px;
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    .task-drag-handle {
+        padding: 8px;
+        min-width: 44px;
+        min-height: 44px;
+    }
+    
+    /* Ajustar overlay de arrastre para móvil */
+    .dragging-overlay {
+        max-width: 250px !important;
+    }
+    
+    .drag-overlay-wrapper {
+        max-width: 250px;
+    }
+}
+
+/* Vista para móviles - pantallas pequeñas */
+@media screen and (min-width: 481px) and (max-width: 767px) {
+    .div-container-tasklist {
+        flex-direction: column;
+        align-items: center;
+        gap: 20px;
+        padding: 15px;
+    }
+    
+    .div-container-tasklist-undone,
+    .div-container-tasklist-done {
+        width: 90%;
+        max-width: 400px;
+        height: 350px;
+        margin: 0;
+    }
+    
+    .div-container-tasklist-undone {
+        margin-right: 0;
+        margin-bottom: 15px;
+    }
+    
+    .div-container-tasklist-done {
+        margin-left: 0;
+        margin-top: 15px;
+    }
+    
+    /* Ajustar tamaño de tareas */
+    .task-item {
+        width: 85%;
+        padding: 10px;
+    }
+    
+    /* Mejorar área táctil de botones */
+    .edit-task-button,
+    .delete-task-button {
+        padding: 6px;
+        font-size: 16px;
+        min-width: 40px;
+        min-height: 40px;
+    }
+    
+    .task-drag-handle {
+        padding: 6px;
+        min-width: 40px;
+        min-height: 40px;
+    }
+}
+
+/* Ajustar controles para móviles */
+@media screen and (max-width: 767px) {
+    .controls-container {
+        flex-direction: column;
+        width: 95%;
+        align-items: stretch;
+        gap: 15px;
+        padding: 15px;
+        margin: 15px auto;
+    }
+    
+    .filters-container {
+        flex-direction: column;
+        gap: 12px;
+        align-items: stretch;
+        width: 100%;
+    }
+    
+    .filter-group {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .filter-select {
+        width: 100%;
+        min-width: auto;
+        padding: 12px 15px;
+        font-size: 16px;
+    }
+    
+    .add-task-button {
+        width: 100%;
+        padding: 15px 20px;
+        font-size: 16px;
+        margin-top: 10px;
+    }
+    
+    /* Ajustar título para móvil */
+    .h2-title {
+        font-size: 18px;
+        padding: 12px;
+        margin-bottom: 10px;
+    }
 }

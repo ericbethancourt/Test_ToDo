@@ -8,6 +8,7 @@ Meteor.methods({
             name_task: String,
             done: Boolean,
             priority: String,
+            description: String,
         });
 
         // Determinar la posición máxima actual para tareas no completadas
