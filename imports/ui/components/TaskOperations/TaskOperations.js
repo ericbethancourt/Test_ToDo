@@ -314,4 +314,106 @@ export const editTask = (task, priorityLevels, priorityLabels, onSuccess, onErro
             }
         }
     });
+};
+
+// Función para visualizar una tarea completa (solo lectura)
+export const viewTask = (task, priorityLabels) => {
+    const formatTaskDate = (date) => {
+        if (!date) return 'No disponible';
+        const taskDate = new Date(date);
+        return taskDate.toLocaleDateString('es-ES', {
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric',
+            hour: '2-digit',
+            minute: '2-digit'
+        });
+    };
+
+    const createdDate = formatTaskDate(task.createdAt);
+    const completedDate = task.done && task.completedAt ? formatTaskDate(task.completedAt) : null;
+    const priorityLabel = priorityLabels[task.priority] || 'Normal';
+    const statusLabel = task.done ? 'Completada' : 'Pendiente';
+    const statusColor = task.done ? '#28a745' : '#0e56d9';
+
+    Swal.fire({
+        title: 'Detalles de la Tarea',
+        customClass: {
+            popup: 'swal-popup-rounded',
+            title: 'swal-title-styled'
+        },
+        allowOutsideClick: true,
+        allowEscapeKey: true,
+        html: `
+            <div style="text-align: left; font-family: system-ui;">
+                <div style="margin-bottom: 20px;">
+                    <h3 style="margin: 0 0 5px 0; font-size: 18px; color: #333; font-weight: bold;">
+                        Nombre:
+                    </h3>
+                    <p style="margin: 0; padding: 8px; background-color: #f8f9fa; border-radius: 5px; 
+                              border-left: 3px solid #0e56d9; font-size: 16px;">
+                        ${task.name_task}
+                    </p>
+                </div>
+                
+                <div style="margin-bottom: 20px;">
+                    <h3 style="margin: 0 0 5px 0; font-size: 18px; color: #333; font-weight: bold;">
+                        Descripción:
+                    </h3>
+                    <p style="margin: 0; padding: 8px; background-color: #f8f9fa; border-radius: 5px; 
+                              border-left: 3px solid #0e56d9; font-size: 14px; min-height: 60px;
+                              color: ${task.description && task.description.trim() ? '#333' : '#999'};">
+                        ${task.description && task.description.trim() ? task.description : 'Sin descripción'}
+                    </p>
+                </div>
+                
+                <div style="display: flex; gap: 15px; margin-bottom: 20px;">
+                    <div style="flex: 1;">
+                        <h3 style="margin: 0 0 5px 0; font-size: 16px; color: #333; font-weight: bold;">
+                            Prioridad:
+                        </h3>
+                        <span style="display: inline-block; padding: 6px 12px; background-color: #e3f2fd; 
+                                     color: #0e56d9; border-radius: 15px; font-weight: bold; font-size: 14px;">
+                            ${priorityLabel}
+                        </span>
+                    </div>
+                    
+                    <div style="flex: 1;">
+                        <h3 style="margin: 0 0 5px 0; font-size: 16px; color: #333; font-weight: bold;">
+                            Estado:
+                        </h3>
+                        <span style="display: inline-block; padding: 6px 12px; background-color: ${statusColor}15; 
+                                     color: ${statusColor}; border-radius: 15px; font-weight: bold; font-size: 14px;">
+                            ${statusLabel}
+                        </span>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 15px;">
+                    <h3 style="margin: 0 0 5px 0; font-size: 16px; color: #333; font-weight: bold;">
+                        Fecha de Creación:
+                    </h3>
+                    <p style="margin: 0; color: #666; font-size: 14px;">
+                        ${createdDate}
+                    </p>
+                </div>
+                
+                ${completedDate ? `
+                    <div style="margin-bottom: 15px;">
+                        <h3 style="margin: 0 0 5px 0; font-size: 16px; color: #333; font-weight: bold;">
+                            Fecha de Finalización:
+                        </h3>
+                        <p style="margin: 0; color: #666; font-size: 14px;">
+                            ${completedDate}
+                        </p>
+                    </div>
+                ` : ''}
+            </div>
+        `,
+        showCancelButton: false,
+        confirmButtonText: 'Cerrar',
+        confirmButtonColor: '#0e56d9',
+        focusConfirm: true,
+        width: '600px',
+    });
 }; 

@@ -2,7 +2,7 @@ import React from 'react';
 import { FaTrash, FaCheck, FaBars, FaEdit } from 'react-icons/fa';
 import { useSortable } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { deleteTask, editTask } from '/imports/ui/components/TaskOperations/TaskOperations';
+import { deleteTask, editTask, viewTask } from '/imports/ui/components/TaskOperations/TaskOperations';
 import { formatDate, PRIORITY_LEVELS, PRIORITY_LABELS } from '/imports/ui/utils/constants';
 
 const TaskItem = ({ task, index, isLastItem, isDone, getPriorityClass, getPriorityLabel }) => {
@@ -64,6 +64,12 @@ const TaskItem = ({ task, index, isLastItem, isDone, getPriorityClass, getPriori
         );
     };
     
+    // Manejar la visualización de la tarea con doble clic
+    const handleViewTask = (e) => {
+        e.stopPropagation(); // Prevenir que se active el drag
+        viewTask(task, PRIORITY_LABELS);
+    };
+    
     // Obtener la fecha apropiada según el estado de la tarea
     const getTaskDate = () => {
         if (isDone && task.completedAt) {
@@ -84,6 +90,7 @@ const TaskItem = ({ task, index, isLastItem, isDone, getPriorityClass, getPriori
             key={task._id}
             ref={setNodeRef}
             style={style}
+            onDoubleClick={handleViewTask}
             {...attributes}
             {...listeners}
         >
